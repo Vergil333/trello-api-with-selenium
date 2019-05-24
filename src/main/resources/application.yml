@@ -4,3 +4,12 @@ server:
 spring:
   application:
     name: "Operate Trello"
+  security:
+    oauth2:
+      client:
+        client-id: admin
+        client-secret: heslo
+  trello:
+    api-key: "792071e79b4749a921804ecfd127895c"
+    token: "191fc77477b7ddc815a8aa100845df9dc84554dce30f25959e314fcaf5582452"
+    demo-board-id: "qFfMst00"
