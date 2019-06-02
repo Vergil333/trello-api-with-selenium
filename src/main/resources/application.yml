@@ -5,11 +5,12 @@ spring:
   application:
     name: "Operate Trello"
   security:
-    oauth2:
-      client:
-        client-id: admin
-        client-secret: heslo
-  trello:
-    api-key: "792071e79b4749a921804ecfd127895c"
-    token: "191fc77477b7ddc815a8aa100845df9dc84554dce30f25959e314fcaf5582452"
-    demo-board-id: "qFfMst00"
+    client:
+      client-id: admin
+      client-secret: heslo
+
+trello:
+  api-key: "77c295ce5af4dcf6e1878306ace9d3ca"
+  secret: "b97ff419931773f058b95537e19041378b13a0c10f7731e0a1cbb19526d2ac84"
+  token: "1405f79b5546bdd3261f0c025266aea51fb61824fce5c0523bf5fa69b1fb5378" # read,write,account permissions (bearer token)
+  demo-board-id: "5cefd3ec27f8c3587b13a25d"

@@ -1,7 +1,5 @@
 package com.machava.demo.trelloapiwithselenium.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -19,5 +17,4 @@ public class TrelloBoardDto {
     public Long id;
     public String name;
     public String url;
-    public List<CardDto> cards;
 }

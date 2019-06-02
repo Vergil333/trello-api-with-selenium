@@ -1,6 +1,7 @@
 package com.machava.demo.trelloapiwithselenium.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,16 +12,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-@Configuration
 @EnableWebSecurity
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
     @Autowired
     private CustomBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("heslo").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser(applicationProperties.user).password(passwordEncoder().encode(applicationProperties.password)).roles("ADMIN");
     }
 
     @Override
