@@ -1,4 +1,4 @@
-package com.machava.demo.trelloapiwithselenium.controller;
+package com.machava.demo.trelloapiwithselenium.controllers;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.machava.demo.trelloapiwithselenium.dto.CardDto;
-import com.machava.demo.trelloapiwithselenium.dto.ListDto;
-import com.machava.demo.trelloapiwithselenium.manager.TrelloManager;
+import com.machava.demo.trelloapiwithselenium.dtos.CardDto;
+import com.machava.demo.trelloapiwithselenium.dtos.ListDto;
+import com.machava.demo.trelloapiwithselenium.managers.TrelloManager;
 
 @CrossOrigin("*")
 @RestController
@@ -27,6 +27,11 @@ public class TrelloController {
         return "API is working!";
     }
 
+    @PostMapping("/archive-all-lists")
+    public List<List<Object>> archiveAllLists() {
+        return trelloManager.archiveAllLists();
+    }
+
     // List
     @GetMapping("/get-all-lists")
     public List<ListDto> getAllLists() {
@@ -36,12 +41,6 @@ public class TrelloController {
     @GetMapping("/get-demo-list")
     public ListDto getDemoList() {
         return trelloManager.getDemoList();
-    }
-
-    @PostMapping("/archive-all-lists")
-    public String archiveAllLists() {
-
-        return trelloManager.archiveAllLists(); // do try&catch
     }
 
     // Card

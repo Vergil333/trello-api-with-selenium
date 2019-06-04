@@ -1,7 +1,7 @@
-package com.machava.demo.trelloapiwithselenium.manager;
+package com.machava.demo.trelloapiwithselenium.managers;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.machava.demo.trelloapiwithselenium.dto.CardDto;
-import com.machava.demo.trelloapiwithselenium.dto.ListDto;
-import com.machava.demo.trelloapiwithselenium.manager.services.CreateUrl;
+import com.machava.demo.trelloapiwithselenium.dtos.CardDto;
+import com.machava.demo.trelloapiwithselenium.dtos.ListDto;
+import com.machava.demo.trelloapiwithselenium.managers.services.CreateUrl;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -38,6 +38,7 @@ public class TrelloManager {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<ListDto>>(){});
+
         List<ListDto> responseList = response.getBody();
 
         return responseList;
@@ -63,6 +64,7 @@ public class TrelloManager {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<CardDto>>(){});
+
         List<CardDto> responseList = response.getBody();
 
         return responseList;
@@ -75,13 +77,31 @@ public class TrelloManager {
         return null;
     }
 
-    public String archiveAllLists() {
+    public List<List<Object>> archiveAllLists() {
 
         List<String> idLists = this.getAllLists()
                 .stream().map(ListDto::getId).collect(Collectors.toList());
 
-        return null; // just for now
+        List<String> apiUrls = new ArrayList<>();
+        apiUrls.addAll(createUrl.archiveList(idLists));
 
+        List<List<Object>> resultList = new ArrayList<>();
+
+        apiUrls.forEach(url->{
+            ResponseEntity<ListDto> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.PUT,
+                    null,
+                    new ParameterizedTypeReference<>(){});
+
+            List<Object> tempList = new ArrayList<Object>();
+            tempList.add(response.getBody());
+            tempList.add("Status Code: " + response.getStatusCodeValue());
+
+            resultList.add(tempList);
+        });
+
+        return resultList;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.machava.demo.trelloapiwithselenium.dto;
+package com.machava.demo.trelloapiwithselenium.dtos;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -13,7 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ListDto {
-    public String id;
+public class TrelloBoardDto {
+    public Long id;
     public String name;
+    public String url;
 }

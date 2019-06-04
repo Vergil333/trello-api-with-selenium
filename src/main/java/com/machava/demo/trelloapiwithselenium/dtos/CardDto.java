@@ -1,4 +1,4 @@
-package com.machava.demo.trelloapiwithselenium.dto;
+package com.machava.demo.trelloapiwithselenium.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
