@@ -32,6 +32,25 @@ public class TrelloController {
         return trelloManager.archiveAllLists();
     }
 
+    @PostMapping("/create-demo-list")
+    public ListDto createDemoList() {
+        return trelloManager.createDemoList();
+    }
+
+    @PostMapping("/create-demo-card")
+    public CardDto createDemoCard(String idList) {
+        return trelloManager.createDemoCard(idList);
+    }
+
+    @PostMapping("/make-bity-happy")
+    public String makeBityHappy() {
+        trelloManager.archiveAllLists();
+        String idNewList = trelloManager.createDemoList().getId();
+        trelloManager.createDemoCard(idNewList);
+
+        return "Yay, you are happy!";
+    }
+
     // List
     @GetMapping("/get-all-lists")
     public List<ListDto> getAllLists() {
@@ -43,9 +62,4 @@ public class TrelloController {
         return trelloManager.getDemoList();
     }
 
-    // Card
-    @GetMapping("/get-demo-cards")
-    public List<CardDto> getAllCardsInDemoList() {
-        return trelloManager.getAllCardsInDemoList();
-    }
 }

@@ -55,28 +55,6 @@ public class TrelloManager {
         return demoList;
     }
 
-    public List<CardDto> getAllCards() {
-
-        String apiUrl = createUrl.cards();
-
-        ResponseEntity<List<CardDto>> response = restTemplate.exchange(
-                apiUrl,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<CardDto>>(){});
-
-        List<CardDto> responseList = response.getBody();
-
-        return responseList;
-    }
-
-    public List<CardDto> getAllCardsInDemoList() {
-
-        String demoListId = this.getDemoList().getId();
-
-        return null;
-    }
-
     public List<List<Object>> archiveAllLists() {
 
         List<String> idLists = this.getAllLists()
@@ -102,6 +80,32 @@ public class TrelloManager {
         });
 
         return resultList;
+    }
+
+    public ListDto createDemoList() {
+
+        String apiUrl = createUrl.createDemoList();
+
+        ResponseEntity<ListDto> response = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.POST,
+                null,
+                new ParameterizedTypeReference<ListDto>() {});
+
+        return response.getBody();
+    }
+
+    public CardDto createDemoCard(String idNewList) {
+
+        String apiUrl = createUrl.createDemoCard(idNewList);
+
+        ResponseEntity<CardDto> response = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.POST,
+                null,
+                new ParameterizedTypeReference<CardDto>() {});
+
+        return response.getBody();
     }
 
 }
