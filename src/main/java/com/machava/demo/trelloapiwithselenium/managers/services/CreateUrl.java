@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.machava.demo.trelloapiwithselenium.config.ApplicationProperties;
+import com.machava.demo.trelloapiwithselenium.managers.CreateParameters;
 
 @Service
 public class CreateUrl {
@@ -23,7 +24,10 @@ public class CreateUrl {
 
     @PostConstruct
     public void init() {
-        credentials = "?key=" + applicationProperties.trelloKey + "&token=" + applicationProperties.token;
+        CreateParameters params = new CreateParameters("key", applicationProperties.trelloKey);
+        params.add("token", applicationProperties.token);
+
+        credentials = "?" + params;
     }
 
     public String lists() {
@@ -33,19 +37,24 @@ public class CreateUrl {
     public List<String> archiveList(List<String> idLists) {
         List<String> url = new ArrayList<>();
         idLists.forEach(idList -> {
-            url.add(apiUrlLists + idList + "/closed" + credentials +"&value=true");
+            url.add(apiUrlLists + "/" + idList + "/closed" + credentials + "&value=true");
         });
 
         return url;
     }
 
     public String createDemoList() {
-        return apiUrlLists + credentials + "&name=Demo List&idBoard=" + applicationProperties.getDemoBoard();
+        CreateParameters params = new CreateParameters("name", "Demo List");
+        params.add("idBoard", applicationProperties.getDemoBoard());
+        return apiUrlLists + credentials + "&" + params;
     }
 
-    // 'https://api.trello.com/1/cards?name=Demo%20Card&idList=idNewList&keepFromSource=all&key=77c295ce5af4dcf6e1878306ace9d3ca&token=1405f79b5546bdd3261f0c025266aea51fb61824fce5c0523bf5fa69b1fb5378'
-    public String createDemoCard(String idNewList) {
-        return apiUrlCards + credentials + "&name=Demo Card&idList=" + idNewList + "&idBoard=" + applicationProperties.getDemoBoard();
+   public String createDemoCard(String idNewList) {
+        CreateParameters params = new CreateParameters("name", "Demo Card");
+        params.add("idList", idNewList);
+        params.add("idBoard", applicationProperties.getDemoBoard());
+
+        return apiUrlCards + credentials + "&" + params;
     }
 
 }
