@@ -97,6 +97,10 @@ public class TrelloManager {
 
     public CardDto createDemoCard(String idNewList) {
 
+        if (idNewList == null) {
+            return new CardDto();
+        }
+
         String apiUrl = createUrl.createDemoCard(idNewList);
 
         ResponseEntity<CardDto> response = restTemplate.exchange(
