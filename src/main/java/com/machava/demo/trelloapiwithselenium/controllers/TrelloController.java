@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +19,6 @@ public class TrelloController {
 
     @Autowired
     private TrelloManager trelloManager;
-
-    // Testing
-    @GetMapping("/test")
-    public String testApi() {
-        return "API is working!";
-    }
 
     @PostMapping("/archive-all-lists")
     public List<List<Object>> archiveAllLists() {
@@ -50,16 +43,4 @@ public class TrelloController {
 
         return "Yay, you are happy!";
     }
-
-    // List
-    @GetMapping("/get-all-lists")
-    public List<ListDto> getAllLists() {
-        return trelloManager.getAllLists();
-    }
-
-    @GetMapping("/get-demo-list")
-    public ListDto getDemoList() {
-        return trelloManager.getDemoList();
-    }
-
 }

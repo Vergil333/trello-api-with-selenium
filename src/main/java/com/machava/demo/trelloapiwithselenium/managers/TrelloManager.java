@@ -44,17 +44,6 @@ public class TrelloManager {
         return responseList;
     }
 
-    public ListDto getDemoList() {
-
-        List<ListDto> allLists = this.getAllLists();
-
-        ListDto demoList = allLists.stream()
-                .filter(p -> p.getName().equals("Demo List"))
-                .findFirst().orElse(null);
-
-        return demoList;
-    }
-
     public List<List<Object>> archiveAllLists() {
 
         List<String> idLists = this.getAllLists()
