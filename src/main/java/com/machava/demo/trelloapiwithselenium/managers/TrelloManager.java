@@ -44,7 +44,7 @@ public class TrelloManager {
         return responseList;
     }
 
-    public List<List<Object>> archiveAllLists() {
+    public void archiveAllLists() {
 
         List<String> idLists = this.getAllLists()
                 .stream().map(ListDto::getId).collect(Collectors.toList());
@@ -68,7 +68,6 @@ public class TrelloManager {
             resultList.add(tempList);
         });
 
-        return resultList;
     }
 
     public ListDto createDemoList() {
@@ -84,10 +83,11 @@ public class TrelloManager {
         return response.getBody();
     }
 
-    public CardDto createDemoCard(String idNewList) {
+    public void createDemoCard(String idNewList) {
 
         if (idNewList == null) {
-            return new CardDto();
+            new CardDto();
+            return;
         }
 
         String apiUrl = createUrl.createDemoCard(idNewList);
@@ -98,7 +98,7 @@ public class TrelloManager {
                 null,
                 new ParameterizedTypeReference<CardDto>() {});
 
-        return response.getBody();
+        response.getBody();
     }
 
 }
