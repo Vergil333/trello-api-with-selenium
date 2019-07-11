@@ -29,7 +29,7 @@ public class TrelloManager {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<ListDto> getAllLists() {
+    private List<ListDto> getAllLists() {
 
         String apiUrl = createUrl.lists();
 

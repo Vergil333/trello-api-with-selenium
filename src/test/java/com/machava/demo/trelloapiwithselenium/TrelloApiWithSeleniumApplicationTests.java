@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,12 +50,15 @@ public class TrelloApiWithSeleniumApplicationTests {
 	public void startMainTest() throws InterruptedException {
 		login();
 
-		openBoard();
+		createBoard("Demo Board");
 
 		archiveAllLists();
 
 		createDemoListAndCard();
+	}
 
+	@After
+	public void close() {
 		driver.close();
 	}
 
@@ -69,6 +73,29 @@ public class TrelloApiWithSeleniumApplicationTests {
 		driver.findElement(By.id("login")).submit();
 	}
 
+	private void createBoard(String name) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class=\"boards-page-board-section-list\"]/li/div/p/span[text()=\"Create new board\"]/../..")))
+				.click();
+		driver.findElement(By.xpath("//form[@class=\"create-board-form\"]/div[@class=\"form-container\"]/div[contains(@class,\"board-tile create-board-tile\")]/div/input[@class=\"subtle-input\"]"))
+				.sendKeys(name);
+		driver.findElement(By.xpath("//form[@class=\"create-board-form\"]/button[@class=\"primary\"]/span[text()=\"Create Board\"]"))
+				.click();
+
+		closeBoardMenu();
+	}
+
+	private void closeBoardMenu() {
+		// Close Menu
+		if (wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id=\"content\"]/div[contains(@class,\"board-wrapper\")]")))
+				.getAttribute("class")
+				.contains("is-show-menu")) {
+			driver.findElement(By.xpath("//div[@class=\"board-menu-header-content\"]/a[@class=\"board-menu-header-close-button icon-lg icon-close js-hide-sidebar\"]")).click();
+		}
+
+		// Wait for Demo Board to load
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id=\"content\"]/div[@class='board-wrapper']")));
+	}
+
 	private void openBoard() {
 		// Make sure we are on board menu
 		WebElement boardHref = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/martinmachava3/boards']")));
@@ -77,7 +104,8 @@ public class TrelloApiWithSeleniumApplicationTests {
 		}
 
 		// Open Demo Board
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='board-tile-details-name']//div[text()='Demo board']"))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='board-tile-details-name']//div[text()='Demo board']")))
+				.click();
 
 		// Wait for Demo Board to load
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='board-wrapper']")));
@@ -105,7 +133,7 @@ public class TrelloApiWithSeleniumApplicationTests {
 	}
 
 	private void createDemoList() {
-		driver.findElement(By.xpath("//a[@class='open-add-list js-open-add-list']//span[@class='placeholder']"))
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='open-add-list js-open-add-list']//span[@class='placeholder']")))
 				.click();
 
 		driver.findElement(By.xpath("//input[@class='list-name-input']"))
