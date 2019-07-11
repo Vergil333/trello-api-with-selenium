@@ -1,5 +1,6 @@
 package com.machava.demo.trelloapiwithselenium;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,11 +26,23 @@ public class TrelloApiWithSeleniumApplicationTests {
 
 	@Before
 	public void setup() {
-		String pathToGeckoDrive = "/home/vergil333/IdeaProjects/trello-api-with-selenium/geckodriver"; // Change to match your path
-		System.setProperty("webdriver.gecko.driver", pathToGeckoDrive);
-		driver = new FirefoxDriver();
+		driver = prepareChromeDriver();
 
 		wait = new WebDriverWait(driver, 7);
+	}
+
+	private WebDriver prepareFirefoxDriver() {
+		File driverFile = new File("src/main/resources/geckodriver_linux");
+		String pathToGeckoDrive = driverFile.getAbsolutePath();
+		System.setProperty("webdriver.gecko.driver", pathToGeckoDrive);
+		return new FirefoxDriver();
+	}
+
+	private WebDriver prepareChromeDriver() {
+		File driverFile = new File("src/main/resources/chromedriver_linux");
+		String pathToChromeDrive = driverFile.getAbsolutePath();
+		System.setProperty("webdriver.chrome.driver", pathToChromeDrive);
+		return new ChromeDriver();
 	}
 
 	@Test
